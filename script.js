@@ -9,7 +9,13 @@ const frame = new Image();
 frame.src = "assets/frame.png";
 
 frame.onload = () => {
-    console.log("Frame loaded!");
+    ctx.drawImage(
+        frame,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 };
 
 canvas.width = 1200;
