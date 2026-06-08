@@ -15,8 +15,6 @@ canvas.height = 2048;
 
 const frame = new Image();
 
-frame.src = "assets/frame.png";
-
 frame.onload = () => {
 
     ctx.clearRect(
@@ -29,8 +27,14 @@ frame.onload = () => {
     ctx.drawImage(
         frame,
         0,
-        0
+        0,
+        canvas.width,
+        canvas.height
     );
+
+};
+
+frame.src = "assets/frame.png";
 
 };
 
