@@ -1,191 +1,50 @@
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-
-```
-min-height:100vh;
-
-background:
-    linear-gradient(
-        135deg,
-        #fff9e8,
-        #fff4c9
-    );
-
-font-family:
-    Nunito,
-    sans-serif;
-
-padding:40px 20px;
-```
-
+    background:#f5f5f5;
+    font-family:Nunito,sans-serif;
+    padding:40px 20px;
 }
 
 .container{
-
-```
-max-width:1000px;
-
-margin:auto;
-
-text-align:center;
-
-background:white;
-
-padding:40px;
-
-border-radius:24px;
-
-box-shadow:
-    0 12px 40px rgba(0,0,0,.08);
-```
-
+    max-width:1000px;
+    margin:auto;
+    text-align:center;
 }
 
 h1{
-
-```
-font-size:2.5rem;
-
-color:#222;
-
-margin-bottom:10px;
-
-line-height:1.2;
-```
-
+    margin-bottom:10px;
 }
 
 .subtitle{
-
-```
-color:#777;
-
-font-size:1rem;
-
-margin-bottom:25px;
-```
-
+    color:#666;
+    margin-bottom:20px;
 }
 
 input{
-
-```
-margin-bottom:20px;
-```
-
+    margin-bottom:20px;
 }
 
 .button-group{
-
-```
-margin-bottom:30px;
-```
-
+    margin-bottom:30px;
 }
 
 button{
-
-```
-border:none;
-
-border-radius:999px;
-
-padding:14px 24px;
-
-margin:0 6px;
-
-font-size:1rem;
-
-font-weight:700;
-
-cursor:pointer;
-
-transition:.2s ease;
-```
-
-}
-
-button:hover{
-
-```
-transform:
-    translateY(-2px);
-```
-
-}
-
-#generateBtn{
-
-```
-background:#1f1f1f;
-
-color:white;
-```
-
-}
-
-#downloadBtn{
-
-```
-background:#f3c84b;
-
-color:#222;
-```
-
+    padding:12px 20px;
+    margin:0 5px;
+    cursor:pointer;
 }
 
 canvas{
+    width:400px;
+    height:auto;
 
-```
-width:400px;
+    background:white;
 
-height:auto;
-
-background:white;
-
-border-radius:18px;
-
-box-shadow:
-    0 8px 30px rgba(0,0,0,.12);
-```
-
-}
-
-@media (max-width:600px){
-
-```
-.container{
-
-    padding:25px;
-
-}
-
-h1{
-
-    font-size:1.9rem;
-
-}
-
-canvas{
-
-    width:90vw;
-
-    max-width:400px;
-
-}
-
-button{
-
-    width:100%;
-
-    margin:6px 0;
-
-}
-```
-
+    box-shadow:
+        0 4px 20px rgba(0,0,0,.1);
 }
