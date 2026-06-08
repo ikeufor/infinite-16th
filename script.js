@@ -5,18 +5,26 @@ const photoInput = document.getElementById("photoInput");
 const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
-// ukuran photobox final
+// ukuran final photobox
 canvas.width = 1200;
 canvas.height = 1800;
 
-// load frame
+// =========================
+// LOAD FRAME
+// =========================
+
 const frame = new Image();
 
 frame.onload = () => {
+
     console.log("Frame loaded");
 
-    // tampilkan frame saat pertama kali buka website
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
     ctx.drawImage(
         frame,
@@ -25,18 +33,24 @@ frame.onload = () => {
         canvas.width,
         canvas.height
     );
+
 };
 
 frame.onerror = () => {
+
     console.error("Frame failed to load");
+
 };
 
-// pastikan path sesuai lokasi file
 frame.src = "assets/frame.png";
 
 
-// helper untuk load foto user
+// =========================
+// LOAD USER IMAGE
+// =========================
+
 function loadImage(file) {
+
     return new Promise((resolve, reject) => {
 
         const img = new Image();
@@ -48,87 +62,265 @@ function loadImage(file) {
         img.src = URL.createObjectURL(file);
 
     });
+
 }
 
 
-// generate photobox
-generateBtn.addEventListener("click", async () => {
+// =========================
+// OBJECT-FIT COVER
+// =========================
 
-    const files = photoInput.files;
+function drawCoverImage(
+    ctx,
+    img,
+    x,
+    y,
+    w,
+    h
+) {
 
-    if (files.length < 4) {
-        alert("Please upload 4 photos.");
-        return;
+    const imageRatio =
+        img.width / img.height;
+
+    const frameRatio =
+        w / h;
+
+    let sx;
+    let sy;
+    let sw;
+    let sh;
+
+    if (imageRatio > frameRatio) {
+
+        sh = img.height;
+
+        sw = sh * frameRatio;
+
+        sx =
+            (img.width - sw) / 2;
+
+        sy = 0;
+
+    } else {
+
+        sw = img.width;
+
+        sh = sw / frameRatio;
+
+        sx = 0;
+
+        sy =
+            (img.height - sh) / 2;
+
     }
 
-    try {
+    ctx.drawImage(
+        img,
+        sx,
+        sy,
+        sw,
+        sh,
+        x,
+        y,
+        w,
+        h
+    );
 
-        const images = [];
+}
 
-        for (let i = 0; i < 4; i++) {
-            const img = await loadImage(files[i]);
-            images.push(img);
-        }
 
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+// =========================
+// GENERATE PHOTOBOX
+// =========================
 
-        // posisi slot foto
-        const slots = [
-            { x: 100, y: 100, w: 1000, h: 350 },
-            { x: 100, y: 500, w: 1000, h: 350 },
-            { x: 100, y: 900, w: 1000, h: 350 },
-            { x: 100, y: 1300, w: 1000, h: 350 }
-        ];
+generateBtn.addEventListener(
+    "click",
+    async () => {
 
-        // gambar semua foto
-        images.forEach((img, index) => {
+        const files =
+            photoInput.files;
 
-            const slot = slots[index];
+        if (files.length !== 4) {
 
-            ctx.drawImage(
-                img,
-                slot.x,
-                slot.y,
-                slot.w,
-                slot.h
+            alert(
+                "Please upload exactly 4 photos."
             );
 
-        });
+            return;
 
-        // gambar frame paling atas
-        ctx.drawImage(
-            frame,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+        }
 
-    } catch (error) {
+        try {
 
-        console.error(error);
+            const images = [];
 
-        alert("Error loading photos.");
+            for (
+                let i = 0;
+                i < 4;
+                i++
+            ) {
+
+                const img =
+                    await loadImage(
+                        files[i]
+                    );
+
+                images.push(img);
+
+            }
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            // =====================
+            // SLOT POSITIONS
+            // =====================
+
+            const slots = [
+
+                // kiri atas
+                {
+                    x: 70,
+                    y: 150,
+                    w: 430,
+                    h: 300
+                },
+
+                // kiri 2
+                {
+                    x: 70,
+                    y: 550,
+                    w: 430,
+                    h: 300
+                },
+
+                // kiri 3
+                {
+                    x: 70,
+                    y: 950,
+                    w: 430,
+                    h: 300
+                },
+
+                // kiri bawah
+                {
+                    x: 70,
+                    y: 1350,
+                    w: 430,
+                    h: 300
+                },
+
+                // kanan atas
+                {
+                    x: 700,
+                    y: 150,
+                    w: 430,
+                    h: 300
+                },
+
+                // kanan 2
+                {
+                    x: 700,
+                    y: 550,
+                    w: 430,
+                    h: 300
+                },
+
+                // kanan 3
+                {
+                    x: 700,
+                    y: 950,
+                    w: 430,
+                    h: 300
+                },
+
+                // kanan bawah
+                {
+                    x: 700,
+                    y: 1350,
+                    w: 430,
+                    h: 300
+                }
+
+            ];
+
+            // =====================
+            // FILL 8 BOXES
+            // =====================
+
+            for (
+                let i = 0;
+                i < 8;
+                i++
+            ) {
+
+                const img =
+                    images[i % 4];
+
+                const slot =
+                    slots[i];
+
+                drawCoverImage(
+                    ctx,
+                    img,
+                    slot.x,
+                    slot.y,
+                    slot.w,
+                    slot.h
+                );
+
+            }
+
+            // gambar frame paling atas
+
+            ctx.drawImage(
+                frame,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Failed to generate photobox."
+            );
+
+        }
 
     }
+);
 
-});
 
+// =========================
+// DOWNLOAD
+// =========================
 
-// download hasil
-downloadBtn.addEventListener("click", () => {
+downloadBtn.addEventListener(
+    "click",
+    () => {
 
-    const link = document.createElement("a");
+        const link =
+            document.createElement(
+                "a"
+            );
 
-    link.download = "photobox.png";
+        link.download =
+            "photobox.png";
 
-    link.href = canvas.toDataURL("image/png");
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
 
-    link.click();
+        link.click();
 
-});
+    }
+);
