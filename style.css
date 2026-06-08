@@ -5,7 +5,12 @@
 }
 
 body{
-    background:#f5f5f5;
+    background:
+        linear-gradient(
+            135deg,
+            #fff9e8,
+            #fffdf5
+    min-height:100vh;
     font-family:Nunito,sans-serif;
     padding:40px 20px;
 }
@@ -13,16 +18,27 @@ body{
 .container{
     max-width:1000px;
     margin:auto;
-    text-align:center;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:24px;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.08);
 }
 
 h1{
+    font-size:3rem;
+    color:#222;
+
     margin-bottom:10px;
 }
 
 .subtitle{
-    color:#666;
-    margin-bottom:20px;
+    color:#777;
+    margin-bottom:25px;
 }
 
 input{
@@ -34,9 +50,37 @@ input{
 }
 
 button{
-    padding:12px 20px;
-    margin:0 5px;
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:14px 28px;
+
+    font-weight:600;
+
+    transition:.25s;
+
     cursor:pointer;
+}
+
+#generateBtn{
+
+    background:#111;
+    color:white;
+}
+
+#downloadBtn{
+
+    background:#f2b134;
+    color:white;
+}
+
+button:hover{
+
+    transform:
+        translateY(-2px);
+
 }
 
 canvas{
@@ -48,3 +92,62 @@ canvas{
     box-shadow:
         0 4px 20px rgba(0,0,0,.1);
 }
+
+#photoInput{
+    display:none;
+}
+
+.upload-box{
+
+    display:inline-block;
+
+    padding:16px 24px;
+
+    border:2px dashed #f2b134;
+
+    border-radius:16px;
+
+    background:white;
+
+    cursor:pointer;
+
+    margin-bottom:25px;
+}
+
+.deco{
+
+    position:fixed;
+
+    font-size:2rem;
+
+    pointer-events:none;
+
+    opacity:.3;
+}
+
+.deco1{
+    top:10%;
+    left:10%;
+}
+
+.deco2{
+    top:20%;
+    right:15%;
+}
+
+.deco3{
+    bottom:15%;
+    left:20%;
+}
+
+.credit{
+
+    margin-top:30px;
+
+    color:#999;
+
+    font-size:.9rem;
+
+}
+
+
