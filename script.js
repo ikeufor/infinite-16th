@@ -8,6 +8,10 @@ const downloadBtn = document.getElementById("downloadBtn");
 const frame = new Image();
 frame.src = "assets/frame.png";
 
+frame.onload = () => {
+    console.log("Frame loaded!");
+};
+
 canvas.width = 1200;
 canvas.height = 1800;
 
@@ -28,9 +32,13 @@ generateBtn.addEventListener("click", async () => {
 
         img.src = URL.createObjectURL(file);
 
-        await new Promise(resolve => {
-            img.onload = resolve;
-        });
+        ctx.drawImage(
+    frame,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+);
 
         images.push(img);
     }
