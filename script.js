@@ -5,19 +5,17 @@ const photoInput = document.getElementById("photoInput");
 const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
-// ukuran final photobox
-canvas.width = 1200;
-canvas.height = 1800;
+// ukuran asli frame
+canvas.width = 1365;
+canvas.height = 2048;
 
-// =========================
-// LOAD FRAME
-// =========================
+// =====================
+// FRAME
+// =====================
 
 const frame = new Image();
 
 frame.onload = () => {
-
-    console.log("Frame loaded");
 
     ctx.clearRect(
         0,
@@ -36,18 +34,12 @@ frame.onload = () => {
 
 };
 
-frame.onerror = () => {
-
-    console.error("Frame failed to load");
-
-};
-
 frame.src = "assets/frame.png";
 
 
-// =========================
-// LOAD USER IMAGE
-// =========================
+// =====================
+// LOAD IMAGE
+// =====================
 
 function loadImage(file) {
 
@@ -66,9 +58,9 @@ function loadImage(file) {
 }
 
 
-// =========================
-// OBJECT-FIT COVER
-// =========================
+// =====================
+// OBJECT FIT COVER
+// =====================
 
 function drawCoverImage(
     ctx,
@@ -93,7 +85,6 @@ function drawCoverImage(
     if (imageRatio > frameRatio) {
 
         sh = img.height;
-
         sw = sh * frameRatio;
 
         sx =
@@ -105,7 +96,8 @@ function drawCoverImage(
 
         sw = img.width;
 
-        sh = sw / frameRatio;
+        sh =
+            sw / frameRatio;
 
         sx = 0;
 
@@ -129,9 +121,9 @@ function drawCoverImage(
 }
 
 
-// =========================
-// GENERATE PHOTOBOX
-// =========================
+// =====================
+// GENERATE
+// =====================
 
 generateBtn.addEventListener(
     "click",
@@ -177,80 +169,78 @@ generateBtn.addEventListener(
             );
 
             // =====================
-            // SLOT POSITIONS
+            // SLOTS
             // =====================
 
             const slots = [
 
-                // kiri atas
+                // LEFT 1
                 {
                     x: 70,
-                    y: 150,
-                    w: 430,
+                    y: 205,
+                    w: 540,
+                    h: 305
+                },
+
+                // LEFT 2
+                {
+                    x: 65,
+                    y: 610,
+                    w: 555,
+                    h: 310
+                },
+
+                // LEFT 3
+                {
+                    x: 65,
+                    y: 1060,
+                    w: 555,
+                    h: 320
+                },
+
+                // LEFT 4
+                {
+                    x: 60,
+                    y: 1560,
+                    w: 560,
+                    h: 320
+                },
+
+                // RIGHT 1
+                {
+                    x: 740,
+                    y: 110,
+                    w: 570,
+                    h: 320
+                },
+
+                // RIGHT 2
+                {
+                    x: 740,
+                    y: 555,
+                    w: 560,
                     h: 300
                 },
 
-                // kiri 2
+                // RIGHT 3
                 {
-                    x: 70,
-                    y: 550,
-                    w: 430,
-                    h: 300
+                    x: 740,
+                    y: 1005,
+                    w: 560,
+                    h: 320
                 },
 
-                // kiri 3
+                // RIGHT 4
                 {
-                    x: 70,
-                    y: 950,
-                    w: 430,
-                    h: 300
-                },
-
-                // kiri bawah
-                {
-                    x: 70,
-                    y: 1350,
-                    w: 430,
-                    h: 300
-                },
-
-                // kanan atas
-                {
-                    x: 700,
-                    y: 150,
-                    w: 430,
-                    h: 300
-                },
-
-                // kanan 2
-                {
-                    x: 700,
-                    y: 550,
-                    w: 430,
-                    h: 300
-                },
-
-                // kanan 3
-                {
-                    x: 700,
-                    y: 950,
-                    w: 430,
-                    h: 300
-                },
-
-                // kanan bawah
-                {
-                    x: 700,
-                    y: 1350,
-                    w: 430,
-                    h: 300
+                    x: 735,
+                    y: 1445,
+                    w: 575,
+                    h: 345
                 }
 
             ];
 
-            // =====================
-            // FILL 8 BOXES
-            // =====================
+            // isi 8 kotak dari 4 foto
 
             for (
                 let i = 0;
@@ -275,7 +265,7 @@ generateBtn.addEventListener(
 
             }
 
-            // gambar frame paling atas
+            // frame di atas foto
 
             ctx.drawImage(
                 frame,
@@ -299,9 +289,9 @@ generateBtn.addEventListener(
 );
 
 
-// =========================
+// =====================
 // DOWNLOAD
-// =========================
+// =====================
 
 downloadBtn.addEventListener(
     "click",
