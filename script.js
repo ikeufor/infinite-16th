@@ -5,10 +5,19 @@ const photoInput = document.getElementById("photoInput");
 const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
+// ukuran photobox final
+canvas.width = 1200;
+canvas.height = 1800;
+
+// load frame
 const frame = new Image();
-frame.src = "assets/frame.png";
 
 frame.onload = () => {
+    console.log("Frame loaded");
+
+    // tampilkan frame saat pertama kali buka website
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     ctx.drawImage(
         frame,
         0,
@@ -18,78 +27,100 @@ frame.onload = () => {
     );
 };
 
-canvas.width = 1200;
-canvas.height = 1800;
+frame.onerror = () => {
+    console.error("Frame failed to load");
+};
 
+// pastikan path sesuai lokasi file
+frame.src = "assets/frame.png";
+
+
+// helper untuk load foto user
+function loadImage(file) {
+    return new Promise((resolve, reject) => {
+
+        const img = new Image();
+
+        img.onload = () => resolve(img);
+
+        img.onerror = reject;
+
+        img.src = URL.createObjectURL(file);
+
+    });
+}
+
+
+// generate photobox
 generateBtn.addEventListener("click", async () => {
 
     const files = photoInput.files;
 
     if (files.length < 4) {
-        alert("Upload 4 photos");
+        alert("Please upload 4 photos.");
         return;
     }
 
-    const images = [];
+    try {
 
-    for (let file of files) {
+        const images = [];
 
-        const img = new Image();
+        for (let i = 0; i < 4; i++) {
+            const img = await loadImage(files[i]);
+            images.push(img);
+        }
 
-        img.src = URL.createObjectURL(file);
-
-        ctx.drawImage(
-    frame,
-    0,
-    0,
-    canvas.width,
-    canvas.height
-);
-
-        images.push(img);
-    }
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    const slots = [
-        { x: 100, y: 100, w: 1000, h: 350 },
-        { x: 100, y: 500, w: 1000, h: 350 },
-        { x: 100, y: 900, w: 1000, h: 350 },
-        { x: 100, y: 1300, w: 1000, h: 350 }
-    ];
-
-    images.slice(0,4).forEach((img,index)=>{
-
-        const slot = slots[index];
-
-        ctx.drawImage(
-            img,
-            slot.x,
-            slot.y,
-            slot.w,
-            slot.h
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
         );
-    });
 
-    await new Promise(resolve => {
-        frame.onload = resolve;
-    });
+        // posisi slot foto
+        const slots = [
+            { x: 100, y: 100, w: 1000, h: 350 },
+            { x: 100, y: 500, w: 1000, h: 350 },
+            { x: 100, y: 900, w: 1000, h: 350 },
+            { x: 100, y: 1300, w: 1000, h: 350 }
+        ];
 
-    ctx.drawImage(
-        frame,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+        // gambar semua foto
+        images.forEach((img, index) => {
+
+            const slot = slots[index];
+
+            ctx.drawImage(
+                img,
+                slot.x,
+                slot.y,
+                slot.w,
+                slot.h
+            );
+
+        });
+
+        // gambar frame paling atas
+        ctx.drawImage(
+            frame,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Error loading photos.");
+
+    }
 
 });
 
+
+// download hasil
 downloadBtn.addEventListener("click", () => {
 
     const link = document.createElement("a");
