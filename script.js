@@ -209,7 +209,7 @@ generateBtn.addEventListener(
                 // RIGHT 1
                 {
                     x: 733,
-                    y: 91,
+                    y: 96,
                     w: 588,
                     h: 413
                 },
@@ -217,7 +217,7 @@ generateBtn.addEventListener(
                 // RIGHT 2
                 {
                     x: 733,
-                    y: 536,
+                    y: 541,
                     w: 588,
                     h: 413
                 },
@@ -225,7 +225,7 @@ generateBtn.addEventListener(
                 // RIGHT 3
                 {
                     x: 733,
-                    y: 981,
+                    y: 986,
                     w: 588,
                     h: 413
                 },
@@ -233,7 +233,7 @@ generateBtn.addEventListener(
                 // RIGHT 4
                 {
                     x: 733,
-                    y: 1426,
+                    y: 1431,
                     w: 588,
                     h: 413
                 }
