@@ -1,17 +1,17 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const photoInput =
-    document.getElementById("photoInput");
+const photoInput = document.getElementById("photoInput");
+const generateBtn = document.getElementById("generateBtn");
+const downloadBtn = document.getElementById("downloadBtn");
 
-const generateBtn =
-    document.getElementById("generateBtn");
-
-const downloadBtn =
-    document.getElementById("downloadBtn");
-
+// ukuran asli frame
 canvas.width = 1365;
 canvas.height = 2048;
+
+// =====================
+// FRAME
+// =====================
 
 const frame = new Image();
 
@@ -36,72 +36,94 @@ frame.onload = () => {
 
 frame.src = "assets/frame.png";
 
-};
 
-function loadImage(file){
+// =====================
+// LOAD IMAGE
+// =====================
 
-    return new Promise((resolve)=>{
+function loadImage(file) {
+
+    return new Promise((resolve, reject) => {
 
         const img = new Image();
 
         img.onload = () => resolve(img);
 
-        img.src =
-            URL.createObjectURL(file);
+        img.onerror = reject;
+
+        img.src = URL.createObjectURL(file);
 
     });
 
 }
 
+
+// =====================
+// OBJECT FIT COVER
+// =====================
+
 function drawCoverImage(
+    ctx,
     img,
     x,
     y,
     w,
     h
-){
+) {
 
-    const scale = Math.max(
-        w / img.width,
-        h / img.height
-    );
+    const imageRatio =
+        img.width / img.height;
 
-    const width =
-        img.width * scale;
+    const frameRatio =
+        w / h;
 
-    const height =
-        img.height * scale;
+    let sx;
+    let sy;
+    let sw;
+    let sh;
 
-    const dx =
-        x + (w - width) / 2;
+    if (imageRatio > frameRatio) {
 
-    const dy =
-        y + (h - height) / 2;
+        sh = img.height;
+        sw = sh * frameRatio;
 
-    ctx.save();
+        sx =
+            (img.width - sw) / 2;
 
-    ctx.beginPath();
+        sy = 0;
 
-    ctx.rect(
+    } else {
+
+        sw = img.width;
+
+        sh =
+            sw / frameRatio;
+
+        sx = 0;
+
+        sy =
+            (img.height - sh) / 2;
+
+    }
+
+    ctx.drawImage(
+        img,
+        sx,
+        sy,
+        sw,
+        sh,
         x,
         y,
         w,
         h
     );
 
-    ctx.clip();
-
-    ctx.drawImage(
-        img,
-        dx,
-        dy,
-        width,
-        height
-    );
-
-    ctx.restore();
-
 }
+
+
+// =====================
+// GENERATE
+// =====================
 
 generateBtn.addEventListener(
     "click",
@@ -110,123 +132,166 @@ generateBtn.addEventListener(
         const files =
             photoInput.files;
 
-        if(files.length !== 4){
+        if (files.length !== 4) {
 
             alert(
-                "Upload exactly 4 photos."
+                "Please upload exactly 4 photos."
             );
 
             return;
 
         }
 
-        const images = [];
+        try {
 
-        for(
-            let i = 0;
-            i < 4;
-            i++
-        ){
+            const images = [];
 
-            images.push(
-                await loadImage(
-                    files[i]
-                )
-            );
+            for (
+                let i = 0;
+                i < 4;
+                i++
+            ) {
 
-        }
+                const img =
+                    await loadImage(
+                        files[i]
+                    );
 
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+                images.push(img);
 
-        const slots = [
-
-            {
-                x:47,
-                y:160,
-                w:588,
-                h:409
-            },
-
-            {
-                x:47,
-                y:601,
-                w:588,
-                h:409
-            },
-
-            {
-                x:47,
-                y:1047,
-                w:588,
-                h:409
-            },
-
-            {
-                x:47,
-                y:1490,
-                w:588,
-                h:409
-            },
-
-            {
-                x:731,
-                y:54,
-                w:589,
-                h:409
-            },
-
-            {
-                x:731,
-                y:496,
-                w:589,
-                h:409
-            },
-
-            {
-                x:731,
-                y:946,
-                w:589,
-                h:409
-            },
-
-            {
-                x:731,
-                y:1390,
-                w:589,
-                h:409
             }
 
-        ];
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
 
-        for(
-            let i = 0;
-            i < 8;
-            i++
-        ){
+            // =====================
+            // SLOTS
+            // =====================
 
-            drawCoverImage(
-                images[i % 4],
-                slots[i].x,
-                slots[i].y,
-                slots[i].w,
-                slots[i].h
+            const slots = [
+
+                // LEFT 1
+                {
+                    x: 47,
+                    y: 160,
+                    w: 588,
+                    h: 409
+                },
+
+                // LEFT 2
+                {
+                    x: 47,
+                    y: 1047,
+                    w: 588,
+                    h: 409
+                },
+
+                // LEFT 3
+                {
+                    x: 47,
+                    y: 1047,
+                    w: 588,
+                    h: 409
+                },
+
+                // LEFT 4
+                {
+                    x: 47,
+                    y: 1490,
+                    w: 588,
+                    h: 409
+                },
+
+                // RIGHT 1
+                {
+                    x: 731,
+                    y: 54,
+                    w: 589,
+                    h: 409
+                },
+
+                // RIGHT 2
+                {
+                    x: 731,
+                    y: 496,
+                    w: 589,
+                    h: 409
+                },
+
+                // RIGHT 3
+                {
+                    x: 731,
+                    y: 946,
+                    w: 589,
+                    h: 409
+                },
+
+                // RIGHT 4
+                {
+                    x: 735,
+                    y: 1390,
+                    w: 589,
+                    h: 409
+                }
+
+            ];
+
+            // isi 8 kotak dari 4 foto
+
+            for (
+                let i = 0;
+                i < 8;
+                i++
+            ) {
+
+                const img =
+                    images[i % 4];
+
+                const slot =
+                    slots[i];
+
+                drawCoverImage(
+                    ctx,
+                    img,
+                    slot.x,
+                    slot.y,
+                    slot.w,
+                    slot.h
+                );
+
+            }
+
+            // frame di atas foto
+
+            ctx.drawImage(
+                frame,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Failed to generate photobox."
             );
 
         }
-
-        ctx.drawImage(
-            frame,
-            0,
-            0
-        );
 
     }
 );
+
+
+// =====================
+// DOWNLOAD
+// =====================
 
 downloadBtn.addEventListener(
     "click",
@@ -238,7 +303,7 @@ downloadBtn.addEventListener(
             );
 
         link.download =
-            "infinite-photobox.png";
+            "photobox.png";
 
         link.href =
             canvas.toDataURL(
